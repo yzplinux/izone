@@ -1,0 +1,48 @@
+[[source]]
+name = "pypi"
+url = 'https://mirrors.aliyun.com/pypi/simple/'
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+bleach = "*"
+bootstrap-admin = "*"
+certifi = "*"
+chardet = "*"
+defusedxml = "*"
+django = "*"
+django-allauth = "*"
+django-appconf = "*"
+django-crispy-forms = "*"
+django-haystack = "*"
+django-imagekit = "*"
+django-redis = "*"
+djangorestframework = "*"
+gunicorn = "*"
+html5lib = "*"
+idna = "*"
+jieba = "*"
+markdown = "*"
+mysqlclient = "*"
+oauthlib = "*"
+olefile = "*"
+pilkit = "*"
+pillow = "*"
+pygments = "*"
+pymysql = "*"
+python3-openid = "*"
+pytz = "*"
+redis = "*"
+requests = "*"
+requests-oauthlib = "*"
+six = "*"
+sqlparse = "*"
+urllib3 = "*"
+user-agent = "*"
+webencodings = "*"
+whoosh = "*"
+django-qiniu-storage = "*"
+
+[requires]
+python_version = "3.7"

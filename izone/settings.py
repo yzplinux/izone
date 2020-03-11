@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 import sys
+import platform
 
 # 导入网站个人信息，非通用信息
 
@@ -25,7 +26,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('IZONE_SECRET_KEY', '#!kta!9e0)24d@9#=*=ra$r!0k0+p5@w+a%7g1bbof9+ad@4_(')
+#配置SECRET_KEY os.getent('环境变量名','环境变量值')
+#注意:计算机的环境变量优先级大于>这里设置的
+SECRET_KEY = os.getenv('IZONE_SECRET_KEY','**************')
 
 # 是否开启[在线工具]应用
 TOOL_FLAG = os.getenv('IZONE_TOOL_FLAG', 'True').upper() == 'TRUE'
@@ -33,9 +36,14 @@ TOOL_FLAG = os.getenv('IZONE_TOOL_FLAG', 'True').upper() == 'TRUE'
 API_FLAG = os.getenv('IZONE_API_FLAG', 'False').upper() == 'TRUE'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('IZONE_DEBUG', 'True').upper() == 'TRUE'
+# Windows系统下运行打开DEBUG
+if platform.system() == 'Windows':
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1','yizhipeng.com','www.yizhipeng.com']
+
 
 # Application definition
 
@@ -175,9 +183,15 @@ USE_TZ = False  # 关闭国际时间，不然数据库报错
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-# 静态文件收集
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# 将静态文件上传到七牛云
+QINIU_ACCESS_KEY = '-anyuPFaZ9_AoCukEJFxJS2YjHhrPA1W0YzOoxRF'
+QINIU_SECRET_KEY = 'U4SrclCu_xFSQrgSQYzwIyZcwPPUvTJ5CvCamG_e'
+QINIU_BUCKET_NAME = 'blog-yzp'
+QINIU_BUCKET_DOMAIN = 'cdn.yizhipeng.com/'
+STATICFILES_STORAGE = 'qiniustorage.backends.QiniuStaticStorage'
+QINIU_SECURE_URL = True
+STATIC_URL = QINIU_BUCKET_DOMAIN + '/static/'
+STATIC_ROOT = 'static'
 
 # 媒体文件收集
 MEDIA_URL = '/media/'
@@ -206,37 +220,45 @@ REST_FRAMEWORK = {
 }
 
 # 配置数据库
-MYSQL_HOST = os.getenv('IZONE_MYSQL_HOST', '127.0.0.1')
-MYSQL_NAME = os.getenv('IZONE_MYSQL_NAME', 'izone')
-MYSQL_USER = os.getenv('IZONE_MYSQL_USER', 'root')
-MYSQL_PASSWORD = os.getenv('IZONE_MYSQL_PASSWORD', 'python')
-MYSQL_PORT = os.getenv('IZONE_MYSQL_PORT', 3306)
+MYSQL_HOST = os.getenv('IZONE_MYSQL_HOST','yzp_blog_mysql')
+MYSQL_NAME = os.getenv('IZONE_MYSQL_NAME')
+MYSQL_USER = os.getenv('IZONE_MYSQL_USER')
+MYSQL_PASSWORD = os.getenv('IZONE_MYSQL_PASSWORD')
+MYSQL_PORT = os.getenv('IZONE_MYSQL_PORT')
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # 修改数据库为MySQL，并进行配置
+#         'NAME': MYSQL_NAME,  # 数据库的名称
+#         'USER': MYSQL_USER,  # 数据库的用户名
+#         'PASSWORD': MYSQL_PASSWORD,  # 数据库的密码
+#         'HOST': '127.0.0.1',
+#         'PORT': MYSQL_PORT,
+#         'OPTIONS': {'charset': 'utf8',
+#                     }
+#     }
+# }
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # 修改数据库为MySQL，并进行配置
-        'NAME': MYSQL_NAME,  # 数据库的名称
-        'USER': MYSQL_USER,  # 数据库的用户名
-        'PASSWORD': MYSQL_PASSWORD,  # 数据库的密码
-        'HOST': MYSQL_HOST,
-        'PORT': MYSQL_PORT,
-        'OPTIONS': {'charset': 'utf8'}
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR,'database','db.sqlite3'),
     }
 }
 
 # 使用django-redis缓存页面，缓存配置如下：
-REDIS_HOST = os.getenv('IZONE_REDIS_HOST', '127.0.0.1')
-REDIS_PORT = os.getenv('IZONE_REDIS_PORT', 6379)
+# REDIS_HOST = os.getenv('IZONE_REDIS_HOST', '127.0.0.1')
+# REDIS_PORT = os.getenv('IZONE_REDIS_PORT', 6379)
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://{}:{}".format(REDIS_HOST, REDIS_PORT),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://{}:{}".format(REDIS_HOST, REDIS_PORT),
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
 
 # 配置管理邮箱，服务出现故障会收到到邮件，环境变量值的格式：name|test@test.com 多组用户用英文逗号隔开
 ADMINS = []
@@ -247,7 +269,7 @@ if admin_email_user:
         ADMINS.append((a_user, a_email))
 
 # 邮箱配置
-EMAIL_HOST = os.getenv('IZONE_EMAIL_HOST', 'smtp.163.com')
+EMAIL_HOST = os.getenv('IZONE_EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('IZONE_EMAIL_HOST_USER', 'your-email-address')
 EMAIL_HOST_PASSWORD = os.getenv('IZONE_EMAIL_HOST_PASSWORD', 'your-email-password')  # 这个不是邮箱密码，而是授权码
 EMAIL_PORT = os.getenv('IZONE_EMAIL_PORT', 465)  # 由于阿里云的25端口打不开，所以必须使用SSL然后改用465端口
@@ -258,16 +280,16 @@ EMAIL_USE_SSL = os.getenv('IZONE_EMAIL_USE_SSL', 'True').upper() == 'TRUE'
 DEFAULT_FROM_EMAIL = os.getenv('IZONE_DEFAULT_FROM_EMAIL', 'TendCode博客 <your-email-address>')
 
 # 网站默认设置和上下文信息
-SITE_LOGO_NAME = os.getenv('IZONE_LOGO_NAME', 'TendCode')
-SITE_END_TITLE = os.getenv('IZONE_SITE_END_TITLE', 'izone')
-SITE_DESCRIPTION = os.getenv('IZONE_SITE_DESCRIPTION', 'izone 是一个使用 Django+Bootstrap4 搭建的个人博客类型网站')
-SITE_KEYWORDS = os.getenv('IZONE_SITE_KEYWORDS', 'izone,Django博客,个人博客')
+SITE_LOGO_NAME = os.getenv('IZONE_LOGO_NAME')
+SITE_END_TITLE = os.getenv('IZONE_SITE_END_TITLE')
+SITE_DESCRIPTION = os.getenv('IZONE_SITE_DESCRIPTION')
+SITE_KEYWORDS = os.getenv('IZONE_SITE_KEYWORDS')
 
 # 个性化设置，非必要信息
 # 个人 Github 地址
-MY_GITHUB = os.getenv('IZONE_GITHUB', 'https://github.com/Hopetree')
+MY_GITHUB = os.getenv('IZONE_GITHUB')
 # 工信部备案信息
-BEIAN = os.getenv('IZONE_BEIAN', '网站备案信息')
+BEIAN = os.getenv('IZONE_BEIAN')
 # 站长统计（友盟）
 CNZZ_PROTOCOL = os.getenv('IZONE_CNZZ_PROTOCOL', '')
 # 站长推送

@@ -19,12 +19,8 @@
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="{% static 'blog/js/headroom.min.js'%}"></script>
     <!-- blog CSS -->
-    <link href="{% static 'blog/css/base.css' %}?v=20191123.0568" rel="stylesheet">
+    <link href="{% static 'blog/css/base.css' %}" rel="stylesheet">
     {% block top-file %}{% endblock %}
-    <!--根据cookies判断是否启用暗色主题-->
-    {% if request.COOKIES.toggleTheme == "dark" %}
-    <link id="theme-css-dark" href="/static/blog/css/night.css?20191123.01" rel="stylesheet">
-    {% endif %}
 </head>
 <body>
 <!--导航开始-->
@@ -73,15 +69,19 @@ if(msgs>0){var _record=0;var myTitle=document.title;function titleBlink(){_recor
 <footer class="container-fluid mt-4 py-0">
     <div class="card-body text-center px-0 f-14">
         <p class="card-text mb-1">Copyright&nbsp;&copy;&nbsp;<span id="year-info"></span>
-            <a href="https://github.com/Hopetree" target="_blank" title="博客作者的Github">Hopetree</a>.&nbsp;Powered&nbsp;by&nbsp;Django.
+            <a href="https://github.com/yzplinux" target="_blank" title="博客作者的Github">yzplinux</a>
+            .Powered by
+            <a href="https://www.djangoproject.com/">Django</a>
+            &
+            <a href="https://www.getbootstrap.com/">Bootstrap</a>
         </p>
         <p class="mb-0">
-            <a href="http://www.miibeian.gov.cn/" target="_blank">{{ beian }}</a>&nbsp;|
+            <a href="http://www.beian.miit.gov.cn/" target="_blank">{{ beian }}</a>&nbsp;|
             <a href="{% url 'django.contrib.sitemaps.views.sitemap' %}" target="_blank">Sitemap</a>
             {% if cnzz_protocol %}|&nbsp;{{ cnzz_protocol|safe }}{% endif %}
             <span id="web-day"></span>
         </p>
-        <script>function getnewYear(){var d = new Date();var old = new Date('2018/03/28');
+        <script>function getnewYear(){var d = new Date();var old = new Date('2020/03/03');
             var x = document.getElementById("year-info");
             x.innerHTML=d.getFullYear();var y=document.getElementById("web-day");
             var dd=Math.floor((d.getTime() - old.getTime()) / (24 * 3600 * 1000));

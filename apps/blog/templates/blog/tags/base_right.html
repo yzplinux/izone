@@ -1,13 +1,14 @@
 {% load cache %}
 {% load blog_tags static %}
 
+<div class="card border-0 rounded-0 px-3 mb-2 mb-md-3 d-none d-lg-block" id="home-card">
+    <p class="mt-2">本网站源码来自于<a href="https://tendcode.com/">TendCode</a>，感谢大佬无私分享！</p>
+</div>
+
 <!--个人空间-->
 <div class="card border-0 rounded-0 px-3 mb-2 mb-md-3 d-none d-lg-block" id="home-card">
     <div class="card-header bg-white px-0">
         <strong><i class="fa fa-paper-plane mr-2 f-17"></i>个人空间</strong>
-        <img class="float-right" id="theme-img"
-             src="{% if request.COOKIES.toggleTheme == 'dark' %}{% static 'blog/img/toggle-dark.png' %}{% else %}{% static 'blog/img/toggle-light.png' %}{% endif %}"
-             alt="theme-toggle" title="切换主题">
     </div>
     <div class="card-body px-0 pt-3 pb-1">
         <div class="row text-center">

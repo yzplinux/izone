@@ -1,0 +1,50 @@
+version: '3'
+
+volumes:
+  database:  
+  media:
+  
+services:
+  yzp_blog:
+    build:
+      context: .
+      dockerfile: compose/django/Dockerfile
+    image: blog_image
+    container_name: blog_container
+    working_dir: /django_app
+    volumes:
+      - media:/django_app/media
+    env_file:
+      - .envs/.django
+    ports:
+      - "8000:8000"
+    command: /start.sh
+    depends_on:
+      - yzp_blog_mysql
+    
+  yzp_blog_nginx:
+    build:
+      context: .
+      dockerfile:  compose/nginx/Dockerfile
+    image: nginx_image
+    container_name: nginx_container
+    volumes:
+      - media:/apps/blog-yzp/media
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - yzp_blog
+    
+  yzp_blog_mysql:
+    build:
+      context: .
+      dockerfile:  compose/mysql/Dockerfile
+    image: mysql_image
+    container_name: mysql_container
+    volumes:
+      - database:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+      
