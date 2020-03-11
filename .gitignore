@@ -86,7 +86,6 @@ celerybeat-schedule
 
 # virtualenv
 .venv
-.envs
 venv/
 ENV/
 
@@ -106,3 +105,4 @@ media/
 !media/avatar/default.png
 static/
 
+/.envs/
