@@ -226,25 +226,25 @@ MYSQL_USER = os.getenv('IZONE_MYSQL_USER')
 MYSQL_PASSWORD = os.getenv('IZONE_MYSQL_PASSWORD')
 MYSQL_PORT = os.getenv('IZONE_MYSQL_PORT')
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',  # 修改数据库为MySQL，并进行配置
-#         'NAME': MYSQL_NAME,  # 数据库的名称
-#         'USER': MYSQL_USER,  # 数据库的用户名
-#         'PASSWORD': MYSQL_PASSWORD,  # 数据库的密码
-#         'HOST': '127.0.0.1',
-#         'PORT': MYSQL_PORT,
-#         'OPTIONS': {'charset': 'utf8',
-#                     }
-#     }
-# }
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR,'database','db.sqlite3'),
-    }
-}
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',  # 修改数据库为MySQL，并进行配置
+         'NAME': MYSQL_NAME,  # 数据库的名称
+         'USER': MYSQL_USER,  # 数据库的用户名
+         'PASSWORD': MYSQL_PASSWORD,  # 数据库的密码
+         'HOST': MYSQL_HOST,
+         'PORT': MYSQL_PORT,
+         'OPTIONS': {'charset': 'utf8',
+                     }
+     }
+ }
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR,'database','db.sqlite3'),
+#    }
+#}
 
 # 使用django-redis缓存页面，缓存配置如下：
 # REDIS_HOST = os.getenv('IZONE_REDIS_HOST', '127.0.0.1')
