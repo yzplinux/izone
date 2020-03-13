@@ -41,6 +41,10 @@ services:
       context: .
       dockerfile:  compose/mysql/Dockerfile
     image: mysql_image
+    command: [
+      '--character-set-server=utf8',
+      '--collation-server=utf8_general_ci',
+    ]
     container_name: mysql_container
     volumes:
       - database:/var/lib/mysql
