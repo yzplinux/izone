@@ -9,7 +9,7 @@ RUN apk add jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-de
 
 WORKDIR /django_app
 
-RUN pip install pipenv -i https://mirrors.aliyun.com/pypi/simple/
+RUN pip install pipenv -i https://mirrors.aliyun.com/pypi/simple/ && export  TZ='Asia/Shanghai'
 
 COPY Pipfile /django_app/Pipfile
 COPY Pipfile.lock /django_app/Pipfile.lock
