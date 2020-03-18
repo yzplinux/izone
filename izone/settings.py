@@ -220,7 +220,7 @@ REST_FRAMEWORK = {
 }
 
 # 配置数据库
-MYSQL_HOST = os.getenv('IZONE_MYSQL_HOST','yzp_blog_mysql')
+MYSQL_HOST = os.getenv('IZONE_MYSQL_HOST')
 MYSQL_NAME = os.getenv('IZONE_MYSQL_NAME')
 MYSQL_USER = os.getenv('IZONE_MYSQL_USER')
 MYSQL_PASSWORD = os.getenv('IZONE_MYSQL_PASSWORD')
