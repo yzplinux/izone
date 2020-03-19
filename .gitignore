@@ -107,3 +107,4 @@ media/
 static/
 
 
+/compose/nginx/conf/

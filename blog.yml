@@ -3,7 +3,7 @@ version: '3'
 volumes:
   database:  
   media:
-  
+
 services:
   yzp_blog:
     build:
@@ -53,4 +53,4 @@ services:
     ports:
       - "3306:3306"
     env_file:
-      - .envs/.mysql  
+      - .envs/.mysql
