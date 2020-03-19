@@ -7,13 +7,15 @@ COPY . /django_app
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories &&\
 apk update &&\
 pip install pipenv -i https://mirrors.aliyun.com/pypi/simple/ &&\
-apk add libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl \
+apk add libxml2-dev libxslt-dev libffi-dev gcc musl-dev libgcc openssl-dev curl tzdata \
 jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev python3-dev mariadb-dev &&\
 pipenv install --system --deploy --ignore-pipfile &&\
 rm /usr/local/lib/python3.7/site-packages/haystack/inputs.py &&\
 cp ./apps/blog/six.py /usr/local/lib/python3.7/site-packages/django/utils &&\
 cp ./apps/blog/encoding.py /usr/local/lib/python3.7/site-packages/django/utils &&\
 cp ./apps/blog/inputs.py /usr/local/lib/python3.7/site-packages/haystack &&\
+cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
+echo 'Asia/Shanghai' >/etc/timezone &&\
 cp ./compose/django/start.sh /start.sh
 
 #COPY Pipfile /django_app/Pipfile && Pipfile.lock /django_app/Pipfile.lock
