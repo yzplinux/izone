@@ -16,8 +16,8 @@ cp ./apps/blog/encoding.py /usr/local/lib/python3.7/site-packages/django/utils &
 cp ./apps/blog/inputs.py /usr/local/lib/python3.7/site-packages/haystack &&\
 cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
 echo 'Asia/Shanghai' >/etc/timezone &&\
-cp ./compose/django/start.sh /start.sh
+cp ./compose/django/start.sh /start.sh &&\
+chmod +x /start.sh
 
 #COPY Pipfile /django_app/Pipfile && Pipfile.lock /django_app/Pipfile.lock
 #RUN sed -i 's/\r//' /start.sh
-#RUN chmod +x /start.sh
